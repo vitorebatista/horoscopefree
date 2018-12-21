@@ -9,8 +9,10 @@
     "build": "tsc",
     "postinstall": "yarn build",
     "dev": "ts-node ./lib/server.ts",
-    "start": "nodemon ./dist/server.js",
-    "prod": "npm run build && npm run start"
+    "start": "yarn serve",
+    "serve": "node ./dist/server.js",
+    "watch-node": "nodemon ./dist/server.js",
+    "watch-ts": "tsc -w"
   },
   "dependencies": {
     "@types/express": "^4.16.0",
