@@ -7,8 +7,9 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
+    "postinstall": "yarn build",
     "dev": "ts-node ./lib/server.ts",
-    "start": "yarn build && nodemon ./dist/server.js",
+    "start": "nodemon ./dist/server.js",
     "prod": "npm run build && npm run start"
   },
   "dependencies": {
