@@ -16,5 +16,8 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "nodemon": "^1.18.9"
+  },
+  "engines": {
+    "node": "10.3.0"
   }
 }
