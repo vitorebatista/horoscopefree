@@ -16,7 +16,7 @@ class App {
         this.app.use(bodyParser.json());
         //support application/x-www-form-urlencoded post data
         this.app.use(bodyParser.urlencoded({ extended: false }));
-        this.app.get('/:language', (req, res) => {
+        this.app.get('/daily/:language', (req, res) => {
             const language = req.params.language;
             crawler(language)
                 .then( horoscope => res.status(200).send(horoscope))
