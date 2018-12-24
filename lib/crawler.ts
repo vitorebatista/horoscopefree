@@ -91,17 +91,20 @@ async function horoscopeCrawler(language: string) {
     // Obter todo o HTML do site em modo texto
     const promises = signs[language]
         .map( (sign: string, index: number) =>{
-            return request.get(website(language, sign)).then(({ text }) => {
-                const { window } = new JSDOM(text);
-                nodeListToArray(window.document.querySelectorAll('div.horo'))
-                    .map(horo => {
-                        const date = horo.querySelectorAll('div .date');
-                        
-                        dateHoroscope = date[date.length - 1].innerHTML;
-                        const description = horo.querySelector('p');
-                        horoscope[signs.en[index]] = description.innerHTML;
-                        return description.innerHTML;
-                    })
+            return request
+                .get(website(language, sign))
+                .then(({ text }) => {
+                    const { window } = new JSDOM(text);
+                    nodeListToArray(window.document
+                        .querySelectorAll('div.horo'))
+                        .map(horo => {
+                            const date = horo.querySelectorAll('div .date');
+                            
+                            dateHoroscope = date[date.length - 1].innerHTML;
+                            const description = horo.querySelector('p');
+                            horoscope[signs.en[index]] = description.innerHTML;
+                            return description.innerHTML;
+                        })
                 })
                 .catch((error: string) => error); 
         });
