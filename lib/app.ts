@@ -24,7 +24,6 @@ class App {
         this.app.get('/', (req, res) => {
             home()
                 .then( html => {
-                    console.log(html);
                     res.status(200).send(html)
                 })
         })
