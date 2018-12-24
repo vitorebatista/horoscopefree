@@ -1,0 +1,32 @@
+{
+  "name": "horoscopefree",
+  "version": "0.0.1",
+  "description": "The Astrology API Rest daily horoscope",
+  "main": "index.js",
+  "author": "Vitor Emanuel Batista",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "postinstall": "yarn build",
+    "dev": "ts-node ./lib/server.ts",
+    "start": "yarn serve",
+    "serve": "node ./dist/server.js",
+    "watch-node": "nodemon ./dist/server.js",
+    "watch-ts": "tsc -w"
+  },
+  "dependencies": {
+    "@types/express": "^4.16.0",
+    "@types/showdown": "^1.9.0",
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.3",
+    "express": "^4.16.4",
+    "jsdom": "^13.1.0",
+    "moment": "^2.23.0",
+    "showdown": "^1.9.0",
+    "superagent": "^4.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9",
+    "typescript": "^3.2.2"
+  }
+}
