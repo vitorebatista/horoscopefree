@@ -11,15 +11,15 @@ horoscopefree REST API allows developers to access and integrate the functionali
 
 Feel free to contribute on [Github](http://github.com/vitorebatista/horoscopefree)
 
-### Usage
+## :book: Usage
 
     GET: https://horoscopefree.herokuapp.com/daily/
 
 
-### Example
+## :bulb: Example
 The following example is for sun sign aries - 
 
-#### cURL
+### cURL
 ```cUrl
     curl -X GET \
     'https://horoscopefree.herokuapp.com/daily/'
@@ -33,7 +33,7 @@ The following example is for sun sign aries -
     requests.get('https://horoscopefree.herokuapp.com/daily/'')
 ```
 
-#### Node.js
+### Node.js
 ```js
 
     var request = require('request');
