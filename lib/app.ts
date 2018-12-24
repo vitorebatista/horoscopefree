@@ -1,5 +1,6 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
+import * as compression from "compression";
 import crawler from "./crawler";
 
 class App {
@@ -14,6 +15,7 @@ class App {
     private config(): void{
         // support application/json type post data
         this.app.use(bodyParser.json());
+        this.app.use(compression());
         //support application/x-www-form-urlencoded post data
         this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.get('/daily/:language', (req, res) => {
