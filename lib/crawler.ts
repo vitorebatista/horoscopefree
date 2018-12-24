@@ -3,8 +3,15 @@ import * as request from 'superagent';
 import { JSDOM } from 'jsdom';
 import * as moment from 'moment'
 
-// const request = promisifyAgent(agent, Bluebird);
-const website = (language, sign) => `http://${language}.horoscopofree.com/${sign}`;
+const website = (language: string, sign: string) => {
+    const route = {
+        en: `${sign}-horoscope-partner`,
+        pt: `partner-${sign}`,
+        es: `partner-${sign}`
+    };
+    return `http://${language}.horoscopofree.com/${route[language]}`;
+}
+
 const signs = {
     en: [
         'aries',
@@ -34,18 +41,40 @@ const signs = {
         'aquario',
         'peixes'
     ],
+    es: [
+        'aries',
+        'tauro',
+        'geminis',
+        'cancer',
+        'leo',
+        'virgo',
+        'libra',
+        'escorpio',
+        'sagitario',
+        'capricornio',
+        'acuario',
+        'piscis'
+    ],
 
 }
 
-function nodeListToArray(dom) {
+function nodeListToArray(dom: string) {
     return Array.prototype.slice.call(dom, 0);
 }
 
-async function horoscopeCrawler(language) {
+function formatDate( language: string, date: string ) {
+    return language === 'en'
+    ? moment(date, 'MMMM DD, YYYY', 'en')
+        .format('YYYY-MM-DDTHH:mm:ss.SSSSZ')
+    : moment(date.replace(/ de /g,' '), 'DD MMMM YYYY', language)
+        .format('YYYY-MM-DDTHH:mm:ss.SSSSZ');
+}
+
+async function horoscopeCrawler(language: string) {
     let dateHoroscope = '';
     let horoscope = {
         publish: '',
-        language: '',
+        language,
         aries: '',
         taurus: '',
         gemini: '',
@@ -61,14 +90,10 @@ async function horoscopeCrawler(language) {
     }
     // Obter todo o HTML do site em modo texto
     const promises = signs[language]
-        .map( (sign, index) =>{
-            const signRoute = language === 'en' ? `${sign}-horoscope-partner` : `partner-${sign}`;
-            return request.get(website(language, signRoute)).then(({ text }) => {
-                // Virtualizar o DOM do texto
+        .map( (sign: string, index: number) =>{
+            return request.get(website(language, sign)).then(({ text }) => {
                 const { window } = new JSDOM(text);
-                
-                // Converter os dados da tabela para uma lista e remover os links
-                const horos = nodeListToArray(window.document.querySelectorAll('div.horo'))
+                nodeListToArray(window.document.querySelectorAll('div.horo'))
                     .map(horo => {
                         const date = horo.querySelectorAll('div .date');
                         
@@ -78,17 +103,11 @@ async function horoscopeCrawler(language) {
                         return description.innerHTML;
                     })
                 })
-                .catch((error) => error);
-            
+                .catch((error: string) => error); 
         });
 
-    const results = await Promise.all(promises);
-    horoscope.publish = language === 'en'
-        ? moment(dateHoroscope, 'MMMM DD, YYYY', 'en')
-            .format('YYYY-MM-DDTHH:mm:ss.SSSSZ')
-        : moment(dateHoroscope.replace(/ de /g,' '), 'DD MMMM YYYY', 'pt')
-            .format('YYYY-MM-DDTHH:mm:ss.SSSSZ');
-    horoscope.language = language;
+    await Promise.all(promises);
+    horoscope.publish = formatDate( language, dateHoroscope )
     return horoscope;
 }
 
