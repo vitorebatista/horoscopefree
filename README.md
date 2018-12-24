@@ -16,8 +16,7 @@ Feel free to contribute on [Github](http://github.com/vitorebatista/horoscopefre
     GET: https://horoscopefree.herokuapp.com/daily/
 
 
-## :bulb: Example
-The following example is for sun sign aries - 
+## :bulb: Examples
 
 ### cURL
 ```cUrl
