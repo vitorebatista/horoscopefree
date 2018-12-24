@@ -1,4 +1,4 @@
-h1 align="center" style="border-bottom: none;">:clock3:	:six_pointed_star: :gemini: horoscopefree</h1>
+<h1 align="center" style="border-bottom: none;">:clock3:	:six_pointed_star: :gemini: horoscopefree</h1>
 
 ## Highlights
 
