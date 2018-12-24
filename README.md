@@ -3,7 +3,7 @@
 ## Highlights
 
 - Daily horoscope
-- English, Portuguese and Spanish horoscope
+- [English](https://horoscopefree.herokuapp.com/daily/), [Portuguese](https://horoscopefree.herokuapp.com/daily/pt/) and [Spanish](https://horoscopefree.herokuapp.com/daily/es/) horoscope
 - Simple and free HTTP resquest
 
 ## What is horoscopefree?
@@ -13,7 +13,9 @@ Feel free to contribute on [Github](http://github.com/vitorebatista/horoscopefre
 
 ## :book: Usage
 
-    GET: https://horoscopefree.herokuapp.com/daily/
+    GET English: https://horoscopefree.herokuapp.com/daily/
+    GET Portuguese: https://horoscopefree.herokuapp.com/daily/pt/
+    GET Spanish: https://horoscopefree.herokuapp.com/daily/es/
 
 
 ## :bulb: Examples
