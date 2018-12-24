@@ -1,24 +1,31 @@
+h1 align="center" style="border-bottom: none;">:clock3:	:six_pointed_star: :gemini: horoscopefree</h1>
 
-# What is horoscopefree?
+## Highlights
+
+- Daily horoscope
+- English, Portuguese and Spanish horoscope
+- Simple and free HTTP resquest
+
+## What is horoscopefree?
 horoscopefree REST API allows developers to access and integrate the functionality of horoscopefree.com with other applications. The API retrieves daily horoscopes.
 
 Feel free to contribute on [Github](http://github.com/vitorebatista/horoscopefree)
 
-## Usage
+### Usage
 
     GET: https://horoscopefree.herokuapp.com/daily/
 
 
-## Example
+### Example
 The following example is for sun sign aries - 
 
-### cURL
+#### cURL
 ```cUrl
     curl -X GET \
     'https://horoscopefree.herokuapp.com/daily/'
 ```
 
-### Python
+#### Python
 
 ```python
     import requests
@@ -26,7 +33,7 @@ The following example is for sun sign aries -
     requests.get('https://horoscopefree.herokuapp.com/daily/'')
 ```
 
-### Node.js
+#### Node.js
 ```js
 
     var request = require('request');
@@ -44,3 +51,16 @@ The following example is for sun sign aries -
 
     request(options, callback);
 ```
+
+## 🤝 &nbsp; Contributions
+
+Contributions, issues and feature requests are very welcome.
+
+## 💪🏻 &nbsp; Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+
+
+## License
+
+horoscopefree is licensed under a [MIT  License](./LICENSE).
