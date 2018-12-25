@@ -10,7 +10,7 @@
     "postinstall": "yarn build",
     "dev": "./node_modules/nodemon/bin/nodemon.js",
     "start": "yarn serve",
-    "serve": "ts-node lib/server.ts",
+    "serve": "node ./dist/server.js",
     "watch-node": "nodemon ./dist/server.js",
     "watch-ts": "tsc -w"
   },
