@@ -19,7 +19,7 @@
     "compression": "^1.7.3",
     "express": "^4.16.4",
     "jsdom": "^13.1.0",
-    "moment": "^2.23.0",
+    "moment": "^2.29.2",
     "showdown": "^1.9.0",
     "superagent": "^4.0.0"
   },
