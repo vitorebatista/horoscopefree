@@ -233,6 +233,46 @@ For maintainer-facing details — release checklist, architecture decisions, pro
 
 ---
 
+## Deploy to Fly.io
+
+The repo ships a `Dockerfile` and `fly.toml` for one-command deployment to [Fly.io](https://fly.io). The default configuration uses a single `shared-cpu-1x` / 256 MB machine in `gru` (São Paulo) with a 1 GB persistent volume mounted at `/data` for the horoscope cache. On the free $5/month credit this typically runs at $0/month for low-traffic personal use.
+
+**First-time setup:**
+
+```bash
+# 1. Install flyctl + authenticate (one-time per machine)
+curl -L https://fly.io/install.sh | sh
+fly auth signup    # or: fly auth login
+
+# 2. Create the app (the name in fly.toml must be globally unique — rename if needed)
+fly apps create horoscopefree
+
+# 3. Create the persistent volume for the horoscope cache
+fly volumes create horoscope_cache --region gru --size 1
+
+# 4. Deploy
+fly deploy
+```
+
+**Subsequent deploys:** just `fly deploy`.
+
+**Useful commands:**
+
+```bash
+fly status          # machine + volume state
+fly logs            # tail logs
+fly ssh console     # shell into the running VM
+fly open            # open the deployed URL in a browser
+```
+
+**Why single-instance only:** the per-source throttle in `src/scrapers/shared.ts` holds `nextAllowedAt` state in a module-level closure. Scaling to multiple machines would multiply the effective throttle delay by the instance count and can violate the 1000 ms inter-request floor that the upstream sites expect. `fly.toml` is configured for single-instance by default — do **not** set `min_machines_running > 1` or enable auto-scaling.
+
+**Cold starts:** `auto_stop_machines = "stop"` means the VM stops when idle to preserve free credit. The first request after an idle period incurs a ~5-second cold start. Subsequent requests in the same warm window are <50 ms.
+
+**Operating a public endpoint:** if you expose the deployed URL to anyone other than yourself, re-read [`DISCLAIMER.md`](./DISCLAIMER.md) and consider contacting the upstream publishers directly. You are now the *operator* of a service that fetches third-party content, not just the author of a library.
+
+---
+
 ## Disclaimer
 
 This library fetches content from third-party publishers (horoscope.com, joaobidu.com.br, 20minutos.es). Before deploying, read [`DISCLAIMER.md`](./DISCLAIMER.md) — it covers the no-affiliation statement, source attribution requirements, ToS-compliance obligations, and commercial-use guidance. **TL;DR:** display the `source` URL alongside any horoscope text you show end users, comply with each upstream site's ToS, and contact the publishers directly for commercial or high-volume use.

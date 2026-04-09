@@ -25,3 +25,6 @@ yarn-error.log*
 # Env
 .env
 .env.local
+
+# Fly.io local state (if any)
+.fly/
