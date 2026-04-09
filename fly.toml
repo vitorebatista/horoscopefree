@@ -1,0 +1,60 @@
+# fly.toml — horoscopefree deployment
+#
+# SINGLE-INSTANCE ONLY. The per-source throttle in src/scrapers/shared.ts holds
+# `nextAllowedAt` state in a module-level closure (D-13). Scaling to multiple
+# machines would effectively multiply the throttle delay by instance_count and
+# can violate the 1000ms inter-request floor that the upstream sites expect.
+# Do NOT add `min_machines_running > 1` or configure auto-scaling.
+#
+# Deploy steps (first-time):
+#   fly apps create horoscopefree             # may need to change name if taken
+#   fly volumes create horoscope_cache --region gru --size 1
+#   fly deploy
+#
+# Deploy steps (subsequent):
+#   fly deploy
+#
+# Useful:
+#   fly logs
+#   fly ssh console
+#   fly status
+#   fly open           # open the app URL in a browser
+
+app = "horoscopefree"
+primary_region = "gru"   # São Paulo — closest to BRT. Change if you prefer.
+
+[build]
+  # Dockerfile at the repo root is detected automatically.
+
+[env]
+  NODE_ENV = "production"
+  HOROSCOPE_CACHE_DIR = "/data/horoscopes"
+  # PORT is set by Fly via internal_port below; the server respects process.env.PORT.
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"      # idle → stopped, saves free credit
+  auto_start_machines = true       # request → cold-starts in ~5s
+  min_machines_running = 0
+  processes = ["app"]
+
+  # Healthcheck against /health so Fly knows when the app is ready to receive
+  # traffic after a cold start.
+  [[http_service.checks]]
+    grace_period = "10s"
+    interval = "30s"
+    method = "GET"
+    timeout = "5s"
+    path = "/health"
+
+# Persistent disk for the horoscope cache. 1 GB is plenty — each cached entry
+# is a small JSON file, and the PT source is today-only so the cache stays
+# bounded. Survives deploys; only `fly volumes destroy` wipes it.
+[[mounts]]
+  source = "horoscope_cache"
+  destination = "/data"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"         # app barely touches memory; Hono + Cheerio are tiny

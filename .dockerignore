@@ -1,0 +1,51 @@
+# Keep the Docker build context small — only send what the Dockerfile
+# explicitly COPYs (package.json, yarn.lock, tsconfig.json, src/).
+
+# Node / build output
+node_modules
+dist
+coverage
+.cache
+
+# Planning artifacts — not needed in the image
+.planning
+.claude
+
+# Version control
+.git
+.gitignore
+.github
+
+# Editor / OS
+.vscode
+.idea
+.DS_Store
+
+# Test files (the builder only needs src/, not test/)
+test
+vitest.config.ts
+
+# Dev-only config
+eslint.config.mjs
+.prettierrc.json
+.prettierignore
+
+# Docs — not shipped to runtime
+README.md
+CLAUDE.md
+DISCLAIMER.md
+CONTRIBUTING.md
+LICENSE
+
+# Fly-specific files — shouldn't go into the image
+fly.toml
+.fly
+
+# Dockerfile itself doesn't need to be in the context
+Dockerfile
+.dockerignore
+
+# Env files never go to remote
+.env
+.env.local
+*.log
