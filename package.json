@@ -40,7 +40,7 @@
   "dependencies": {
     "@hono/node-server": "1.19.13",
     "cheerio": "1.2.0",
-    "hono": "4.12.12"
+    "hono": "4.12.14"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.0",
